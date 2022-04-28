@@ -1,0 +1,41 @@
+#!/bin/bash
+# Copyright (c) 2022 Innodisk crop.
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
+MODE="${1}"
+LIBTYPE="${2}"
+LIBAUG=""
+
+if [ "$LIBTYPE" == "shared" ] ; then
+    LIBAUG="-DSHAREDLIB=ON"
+fi
+
+if [ "$MODE" == "clean" ] ; then
+    rm -rf ./buildsc_arm
+    rm -rf ./buildsc_x86
+    rm -rf ./build
+    rm -rf ./stesting
+    rm -rf ./CMakeFiles
+    rm -rf ./cmake_install.cmake
+    rm -rf ./CMakeCache.txt
+    rm -rf ./CTestTestfile.cmake
+    rm -rf ./Makefile
+    rm -rf ./*_log.json
+    rm -rf ./Testing
+elif [ "$MODE" == "arm" ] ; then
+    cmake $LIBAUG -DCROSSCOMPILE=ON -H. -Bbuildsc_arm
+    cd ./buildsc_arm
+    make
+else
+    cmake $LIBAUG -H. -Bbuildsc_x86
+    cd ./buildsc_x86
+    make
+fi
+
+if [ "$MODE" != "clean" ] ; then
+cp ./stesting ../
+cd ../
+echo "export LD_LIBRARY_PATH=./"
+fi

@@ -1,0 +1,68 @@
+{
+    "BOARDNAME": "K26",
+    "BOARDID": "EEPROM",
+    "HDMI": {
+        "KERNEL": "zynqmp-display"
+    },
+    "SDCard": {
+        "DEVICEPATH": "/dev/mmcblk0p2",
+        "FILENAME": "/SDCard.dd",
+        "WRITEPATH": "/mnt",
+        "DDBS": "10M",
+        "DDCOUNT": "10"
+    },
+    "USB": {
+        "FILENAME": "/USB.dd",
+        "DDBS": "10M",
+        "DDCOUNT": "10"
+    },
+    "ETH": {
+        "IP": "",
+        "NAME": "eth0"
+    },
+    "I2C": {
+        "ID": "0x44",
+        "BUSID": "1",
+        "ADDRESS": "0x55",
+        "DATA": "0xf3"
+    },
+    "CAN": {
+        "ID": "123",
+        "DATA": "1122334455667788",
+        "TX": "can1",
+        "RX": "can0",
+        "SPEED": [
+            250000,
+            10000,
+            200
+        ]
+    },
+    "UART": {
+        "TX": "/dev/ttyUL1"
+    },
+    "UPLOAD": {
+        "FILESYSTEM": "cifs",
+        "IP": "172.16.92.131",
+        "USER": "jhh",
+        "PASSWORD": "user",
+        "SERVERPATH": "share",
+        "CLIENTPATH": "/mnt/networkfs"
+    },
+    "MKEY": {
+        "VENDORID": "1bc0:1002",
+        "DEVICE": "nvme0n1",
+        "FIOBS": "10M",
+        "FIOSIZE": "10",
+        "WRITECAP": "300"
+    },
+    "EEPROM": {
+        "ID": "0x51",
+        "BUSID": "1",
+        "ADDRESS": "0x00",
+        "DATA": "WriteWilsonIntoEEPROM"
+    },
+    "AKEY": {
+        "PCIE_VENDOR": "8087:",
+        "USB2_VENDOR": "8087:0a2b"
+    }
+}
