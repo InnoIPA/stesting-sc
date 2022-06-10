@@ -28,7 +28,6 @@
 #include "can.h"
 #include "uart.h"
 #include "dna.h"
-#include "eeprom.h"
 
 #define AUG_HELP		'h' // help
 #define AUG_DEBUGMODE	'd'
@@ -51,7 +50,7 @@ void help()
 	LOG("available debug MODES");
 	LOG("  [0] GPIO      [1] ETH     [2] USB     [3] HDMI");
 	LOG("  [4] SD_Card   [5] I2C     [6] CAN     [7] UART");
-	LOG("  [8] MKEY      [9] EEPROM  [A] AKEY    [q] Quit");
+	LOG("  [8] MKEY      [A] AKEY    [q] Quit");
 	LOG("");
 	LOG("");
 }
@@ -79,23 +78,16 @@ bool production(char *cfgfile)
 	result += ETH_run(cfgfile);
 	result += I2C_run(cfgfile);
 	result += CAN_run(cfgfile);
-	result += UART_run(cfgfile);
+	// result += UART_run(cfgfile);
 	result += MKEY_run(cfgfile);
-	result += EEPROM_run(cfgfile);
 	result += AKEY_run(cfgfile);
 
 	gettimeofday(&endT, NULL);
 	endtime = (unsigned long long)(endT.tv_sec) * 1000 + (unsigned long long)(endT.tv_usec) / 1000;
 	totaltime = endtime - starttime;
 
-	sprintf(msg, "=   Total Test time: %5lld ms   =", totaltime);
-	LOG("=================================");
+	sprintf(msg, "Total Test time: %5lld ms", totaltime);
 	LOG(msg);
-	(result == 0) ? green() : red();
-	LOG("=================================");
-	(result == 0) ? LOG("=             PASS              =") : LOG("=             FAIL              =");
-	LOG("=================================");
-	reset_color();
 
 	if (result == 0)
 		return true;
@@ -131,7 +123,6 @@ void debug_ui(char* cfgfile)
 			case '6': { CAN_run(cfgfile); MenuShow = false; } break;
 			case '7': { UART_run(cfgfile); MenuShow = false; } break;
 			case '8': { MKEY_run(cfgfile); MenuShow = false; } break;
-			case '9': { EEPROM_run(cfgfile); MenuShow = false; } break;
 			case 'A': { AKEY_run(cfgfile); MenuShow = false; } break;
 			case 'q': { IStop = true; } break;
 		}
@@ -169,10 +160,13 @@ bool debug_ll(char *cfgfile, char *debug_ll_modes)
 			add_ll(dblist, create_node(&db7, UART_run));
 		else if (dmodes[i] == '8')
 			add_ll(dblist, create_node(&db8, MKEY_run));
-		else if (dmodes[i] == '9')
-			add_ll(dblist, create_node(&db9, EEPROM_run));
 		else if (dmodes[i] == 'A')
 			add_ll(dblist, create_node(&dbA, AKEY_run));
+		else
+		{
+			LOG("INVALID TEST MODE");
+			return false;
+		}
 	}
 
 	while (1) // run dblist
@@ -187,31 +181,6 @@ bool debug_ll(char *cfgfile, char *debug_ll_modes)
 
 	if (dbresult != 0)
 		return false;
-	return true;
-}
-
-void stesting_finish(char *logfile)
-{
-	time_t timep;
-	struct tm *p;
-	char msg[MAX_PATH] = {0};
-	time(&timep);
-	p = localtime(&timep);
-	sprintf(msg, "%d %d %d,%d:%d:%2d", (1 + p->tm_mon), (p->tm_mday), (1900 + p->tm_year), p->tm_hour, p->tm_min, p->tm_sec);
-	log_add("TESTDATE", msg);
-	log_save(logfile);
-}
-
-bool stesting_init(char *cfgfile)
-{
-	if (access(cfgfile, F_OK) != 0) // file exists
-		return false;
-	log_init();
-	JSON_Value *Jcfg = json_parse_file(cfgfile);
-	log_add("BOARDNAME", json_object_get_string(json_value_get_object(Jcfg), "BOARDNAME"));
-	log_add("BOARDID", json_object_get_string(json_value_get_object(Jcfg), "BOARDID"));
-	json_value_free(Jcfg);
-	log_add("COMPILETIME", __DATE__ ","__TIME__);
 	return true;
 }
 
@@ -309,31 +278,8 @@ int main(int argc, char *argv[])
 	if(mode == PRODUCTION || mode == DEBUGMODE || mode == DEBUGMODELINKLIST)
 	{
 		stesting_finish(logfile);
+		log_show(logfile);
 	}
-
-	// upload the log file
-	if(mode == PRODUCTION)
-	{
-		if(log_upload(cfgfile, logfile) == true)
-		{
-			green();
-			LOG("success upload log file");
-		}
-		else
-		{
-			red();
-			LOG("fail to upload log file");
-		}
-		reset_color();
-	}
-
-#ifdef DEBUGLOG
-	if (argv[1] != NULL)
-	{
-		sprintf(msg,"cat %s",logfile);
-		system(msg);
-	}
-#endif
 
 	return 0;
 }

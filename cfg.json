@@ -1,30 +1,32 @@
 {
-    "BOARDNAME": "K26",
-    "BOARDID": "EEPROM",
-    "HDMI": {
-        "KERNEL": "zynqmp-display"
-    },
+    "BOARDNAME": "EXMU-X261",
+    "BOARDID": "scan from Bar code",
+    "PRETTYLOG": "false",
     "SDCard": {
         "DEVICEPATH": "/dev/mmcblk0p2",
         "FILENAME": "/SDCard.dd",
         "WRITEPATH": "/mnt",
         "DDBS": "10M",
-        "DDCOUNT": "10"
+        "DDCOUNT": "10",
+        "WRITECAP": "30"
     },
     "USB": {
         "FILENAME": "/USB.dd",
         "DDBS": "10M",
-        "DDCOUNT": "10"
+        "DDCOUNT": "10",
+        "WRITECAP2": "5",
+        "WRITECAP3": "5",
+        "DEVICECNT": "8"
     },
     "ETH": {
         "IP": "",
         "NAME": "eth0"
     },
     "I2C": {
-        "ID": "0x44",
-        "BUSID": "1",
-        "ADDRESS": "0x55",
-        "DATA": "0xf3"
+        "ID": "0x74",
+        "BUSID": "0",
+        "ADDRESS": "0x00",
+        "DATA": "0x0f"
     },
     "CAN": {
         "ID": "123",
@@ -32,37 +34,20 @@
         "TX": "can1",
         "RX": "can0",
         "SPEED": [
-            250000,
-            10000,
-            200
+            100000,
+            100000,
+            100000
         ]
-    },
-    "UART": {
-        "TX": "/dev/ttyUL1"
-    },
-    "UPLOAD": {
-        "FILESYSTEM": "cifs",
-        "IP": "172.16.92.131",
-        "USER": "jhh",
-        "PASSWORD": "user",
-        "SERVERPATH": "share",
-        "CLIENTPATH": "/mnt/networkfs"
     },
     "MKEY": {
         "VENDORID": "1bc0:1002",
         "DEVICE": "nvme0n1",
         "FIOBS": "10M",
-        "FIOSIZE": "10",
-        "WRITECAP": "300"
-    },
-    "EEPROM": {
-        "ID": "0x51",
-        "BUSID": "1",
-        "ADDRESS": "0x00",
-        "DATA": "WriteWilsonIntoEEPROM"
+        "FIOSIZE": "10M",
+        "WRITECAP": "250"
     },
     "AKEY": {
-        "PCIE_VENDOR": "8087:",
-        "USB2_VENDOR": "8087:0a2b"
+        "PCIE_VENDOR": "14e4:43b1",
+        "USB2_VENDOR": "0a5c:216f"
     }
 }

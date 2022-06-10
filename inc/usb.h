@@ -19,6 +19,9 @@ typedef struct _USB_IN
 	char FileName[MAX_PATH];
 	char DDbs[MAX_PATH];
 	char DDcount[MAX_PATH];
+	char WriteCap2[MAX_PATH]; // MB
+	char WriteCap3[MAX_PATH]; // MB
+	int DeviceCnt;
 } USB_IN;
 
 typedef struct _USB_OUT
@@ -37,7 +40,7 @@ typedef struct _USB_OUT
  ****************************************/
 void USB_result(const USB_OUT *output, int devnum);
 void USB_rm(const USB_IN *input);
-bool USB_chk_speed(const USB_OUT *output);
+bool USB_chk_speed(const USB_IN *input, const USB_OUT *output);
 void USB_get_dd_info(USB_OUT *output, char *msg);
 char *USB_write(const USB_IN *input);
 void USB_get_write_path(USB_IN *input, USB_OUT *output, char *msg);

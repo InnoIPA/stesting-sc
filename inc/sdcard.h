@@ -19,13 +19,12 @@ typedef struct _SDCARD_IN
 	char FileName[MAX_PATH];
 	char DDbs[MAX_PATH];
 	char DDcount[MAX_PATH];
+	char WriteCap[MAX_PATH]; // MB
 } SDCARD_IN;
 
 typedef struct _SDCARD_OUT
 {
 	int ErrorCode;
-	char Type[MAX_PATH];	   // USB_3_0 or USB_2_0 or SD_Card
-	char Path[MAX_PATH];	   // UP or DOWN 
 	char WriteTime[MAX_PATH];
 	char WriteSpeed[MAX_PATH];
 } SDCARD_OUT;

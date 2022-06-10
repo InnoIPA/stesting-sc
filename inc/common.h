@@ -8,12 +8,12 @@
 #ifndef _COMMON_
 #define _COMMON_
 
+#define STESTING_VERSION "v0.0.2"
+
 #define MAX_CMD 4096
 #define MAX_PATH 256
 #define LOGFILE "/opt/innodisk/stesting/log.json"
 #define CFGFILE "/opt/innodisk/stesting/cfg.json"
-
-#define DEBUGLOG
 
 #define LOG(Msg) printf("%s\n", Msg)
 #define DLOG(Msg) printf("[%s][%s][%d] %s\n", __FILE__, __FUNCTION__, __LINE__, Msg)
@@ -54,11 +54,32 @@ enum MODES
  ****************************************/
 void log_init();
 void log_add(const char *name, const char *string);
-void log_save(char *logfile);
+void log_save(char *logfile, char *pretty);
 void log_case_init(const char *name, const int result);
 void log_case_detail(const char *detail);
 void log_case_save();
+
+/****************************************
+ *
+ * log upload Function
+ *
+ ****************************************/
 _Bool log_upload(const char *cfgfile, const char *logfile);
+
+/****************************************
+ *
+ * log.json viewer
+ *
+ ****************************************/
+void log_show(char *logfile);
+
+/****************************************
+ *
+ * stesting function
+ *
+ ****************************************/
+void stesting_finish(char *logfile);
+_Bool stesting_init(char *cfgfile);
 
 /****************************************
  *
