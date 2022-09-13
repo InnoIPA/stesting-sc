@@ -14,7 +14,7 @@
  ****************************************/
 typedef struct _MKEY_IN
 {
-	char VendorID[MAX_PATH];
+	char Slot[MAX_PATH];
 	char Device[MAX_PATH];
 	//char ReadCap[MAX_PATH];
 	char WriteCap[MAX_PATH]; // MB
@@ -38,7 +38,8 @@ typedef struct _MKEY_OUT
 void MKEY_result(const MKEY_OUT *output);
 bool MKEY_cfg(MKEY_IN *input, char *cfgfile);
 void MKEY_init(MKEY_OUT *output);
-char *MKEY_lspci(MKEY_IN *input);
+char *MKEY_lspci_id(MKEY_IN *input);
+char *MKEY_lspci(char *vendorid);
 void MKEY_link_state(char *lspci, MKEY_OUT *output);
 char *MKEY_fio(char *rw, MKEY_IN *input);
 void MKEY_fio_result(char *lspci, MKEY_OUT *output);

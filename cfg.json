@@ -1,14 +1,14 @@
 {
     "BOARDNAME": "EXMU-X261",
-    "BOARDID": "scan from Bar code",
+    "SHOWRESULT": "false",
     "PRETTYLOG": "false",
     "SDCard": {
-        "DEVICEPATH": "/dev/mmcblk0p2",
+        "DEVICEPATH": "/dev/mmcblk1p2",
         "FILENAME": "/SDCard.dd",
         "WRITEPATH": "/mnt",
         "DDBS": "10M",
         "DDCOUNT": "10",
-        "WRITECAP": "30"
+        "WRITECAP": "5"
     },
     "USB": {
         "FILENAME": "/USB.dd",
@@ -40,14 +40,17 @@
         ]
     },
     "MKEY": {
-        "VENDORID": "1bc0:1002",
+        "SLOT": "0001:01:00.0",
         "DEVICE": "nvme0n1",
         "FIOBS": "10M",
         "FIOSIZE": "10M",
         "WRITECAP": "250"
     },
     "AKEY": {
-        "PCIE_VENDOR": "14e4:43b1",
-        "USB2_VENDOR": "0a5c:216f"
+        "PCIE_Slot": "0000:01:00.0",
+        "USB2_TEXT": "Bus 001 Device 004"
+    },
+    "UART": {
+        "TX": "/dev/ttyPS0"
     }
 }

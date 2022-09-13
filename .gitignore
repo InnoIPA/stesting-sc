@@ -1,9 +1,4 @@
-CMakeCache.txt
-CMakeFiles
-cmake_install.cmake
 stesting
-buildsc_arm/
-buildsc_x86/
-build/
+build*/
 Makefile
 .vscode/

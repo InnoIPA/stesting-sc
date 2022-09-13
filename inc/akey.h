@@ -14,8 +14,8 @@
  ****************************************/
 typedef struct _AKEY_IN
 {
-	char USB2_VENDOR[MAX_PATH];
-	char PCIE_VENDOR[MAX_PATH];
+	char USB2_TEXT[MAX_PATH];
+	char PCIE_Slot[MAX_PATH];
 } AKEY_IN;
 
 typedef struct _AKEY_OUT
@@ -30,7 +30,8 @@ typedef struct _AKEY_OUT
  *
  ****************************************/
 void AKEY_link_state(char *lspci, AKEY_OUT *output);
-char *AKEY_lspci(AKEY_IN *input);
+char *AKEY_lspci_id(AKEY_IN *input);
+char *AKEY_lspci(char *vendorid);
 void AKEY_init(AKEY_OUT *output);
 bool AKEY_cfg(AKEY_IN *input, char *cfgfile);
 void AKEY_result(const AKEY_OUT *output);

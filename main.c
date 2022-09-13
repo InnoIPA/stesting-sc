@@ -30,18 +30,20 @@
 #include "dna.h"
 
 #define AUG_HELP		'h' // help
-#define AUG_DEBUGMODE	'd'
-#define AUG_UNITTEST	'u'
+#define AUG_DEBUGMODE	'd' // debug mode
+#define AUG_UNITTEST	'u' // unit-test
 #define AUG_GITHUBCI	'g' // for github action runner, because its not allow fopen(), popen(), system()
 #define AUG_SETCONFIG	'c' // select specific config file
 #define AUG_SETLOGFIG	'l' // select specific log file
+#define AUG_VERSION	    'v' // stesting verrsion
 
 void help()
 {
-	LOG("stesting [-h] [-u] [-d MODES] [-c CONFIG] [-l LOG]");
+	LOG("stesting [-v] [-h] [-u] [-d MODES] [-c CONFIG] [-l LOG]");
 	LOG("");
 	LOG("optional arguments:");
 	LOG("  -h, show this help message and exit");
+	LOG("  -v, show version of stesting");
 	LOG("  -u, run unit-test (need dummy config file)");
 	LOG("  -g, run unit-test without config file");
 	LOG("  -c, config file path, default is /opt/innodisk/stesting/cfg.json");
@@ -71,15 +73,25 @@ bool production(char *cfgfile)
 	gettimeofday(&startT, NULL);
 	starttime = (unsigned long long)(startT.tv_sec) * 1000 + (unsigned long long)(startT.tv_usec) / 1000;
 
+	LOG("GPIO TEST"); // for mp tool progress bar
 	result += GPIO_run(cfgfile);
+	LOG("SD_Card TEST"); // for mp tool progress bar
 	result += SD_Card_run(cfgfile);
+	LOG("HDMI TEST"); // for mp tool progress bar
 	result += HDMI_run(cfgfile);
+	LOG("USB TEST"); // for mp tool progress bar
 	result += USB_run(cfgfile);
+	LOG("ETH TEST"); // for mp tool progress bar
 	result += ETH_run(cfgfile);
+	LOG("I2C TEST"); // for mp tool progress bar
 	result += I2C_run(cfgfile);
+	LOG("CAN TEST"); // for mp tool progress bar
 	result += CAN_run(cfgfile);
+	LOG("UART TEST BYPASS"); // for mp tool progress bar
 	// result += UART_run(cfgfile);
+	LOG("MKEY TEST"); // for mp tool progress bar
 	result += MKEY_run(cfgfile);
+	LOG("AKEY TEST"); // for mp tool progress bar
 	result += AKEY_run(cfgfile);
 
 	gettimeofday(&endT, NULL);
@@ -201,7 +213,7 @@ int main(int argc, char *argv[])
 	// parsing augments
 	if (argv[1] != NULL)
 	{
-		sprintf(modelist, "%c%c%c%c::%c:%c:", AUG_HELP, AUG_UNITTEST, AUG_GITHUBCI, AUG_DEBUGMODE, AUG_SETCONFIG, AUG_SETLOGFIG);
+		sprintf(modelist, "%c%c%c%c%c::%c:%c:", AUG_VERSION, AUG_HELP, AUG_UNITTEST, AUG_GITHUBCI, AUG_DEBUGMODE, AUG_SETCONFIG, AUG_SETLOGFIG);
 		while (argument = getopt(argc, argv, modelist))
 		{
 			if (argument == -1 || argument == 255)
@@ -230,6 +242,11 @@ int main(int argc, char *argv[])
 					break;
 				case AUG_SETLOGFIG:					   
 					strcpy(logfile, optarg);
+					break;
+				case AUG_VERSION:
+					LOG(STESTING_VERSION);
+					LOG(STESTING_HASH);
+					return 0;
 					break;
 				case AUG_HELP:					   
 					help();
@@ -278,7 +295,6 @@ int main(int argc, char *argv[])
 	if(mode == PRODUCTION || mode == DEBUGMODE || mode == DEBUGMODELINKLIST)
 	{
 		stesting_finish(logfile);
-		log_show(logfile);
 	}
 
 	return 0;
