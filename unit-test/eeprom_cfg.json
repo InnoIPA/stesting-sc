@@ -1,0 +1,8 @@
+{
+    "EEPROM": {
+        "ID": "0x51",
+        "BUSID": "1",
+        "ADDRESS": "0x00",
+        "DATA": "WriteWilsonIntoEEPROM"
+    }
+}

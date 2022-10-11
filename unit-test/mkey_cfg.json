@@ -1,0 +1,9 @@
+{
+    "MKEY": {
+        "SLOT": "0001:01:00.0",
+        "DEVICE": "nvme0n1",
+        "FIOBS": "10M",
+        "FIOSIZE": "10",
+        "WRITECAP": "1660"
+    }
+}

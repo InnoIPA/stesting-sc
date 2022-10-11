@@ -7,21 +7,48 @@
 MODE=${1}
 PLATFORM=${2:-"arm"}
 LIBTYPE=${3:-"static"}
-LIBAUG=""
-if [ "$LIBTYPE" == "shared" ] ; then
-    LIBAUG="${LIBAUG} -DSHAREDLIB=ON"
-fi
-if [ "$PLATFORM" == "arm" ] ; then
-    LIBAUG="${LIBAUG} -DCROSSCOMPILE=ON"
-fi
+
+function update_version_info () {
+    GIT_HASH=$(git rev-parse HEAD)
+    GIT_BRANCH=$(git symbolic-ref HEAD | sed -e "s/^refs\/heads\///")
+
+    sed -i -e 's/'"#define STESTING_HASH.*"'/'"#define STESTING_HASH \"${GIT_HASH}\""'/g' ./inc/common.h
+    sed -i -e 's/'"#define STESTING_VERSION.*"'/'"#define STESTING_VERSION \"${GIT_BRANCH}\""'/g' ./inc/common.h
+}
+
+function reset_version_info () {
+    GIT_HASH="HASH"
+    GIT_BRANCH="BRANCH"
+
+    sed -i -e 's/'"#define STESTING_HASH.*"'/'"#define STESTING_HASH \"${GIT_HASH}\""'/g' ./inc/common.h
+    sed -i -e 's/'"#define STESTING_VERSION.*"'/'"#define STESTING_VERSION \"${GIT_BRANCH}\""'/g' ./inc/common.h
+}
+
+update_version_info
 
 case ${MODE} in
     build)
-        cmake $LIBAUG -H. -Bbuild_${PLATFORM}
-        cd ./build_${PLATFORM}
+        C_LIB_TYPE=""
+        C_CC=""
+        if [ "$LIBTYPE" == "shared" ] ; then
+            C_LIB_TYPE="-DSHAREDLIB=ON"
+        fi
+        if [ "$PLATFORM" == "arm" ] ; then
+            C_CC="-DCROSSCOMPILE=ON"
+        fi
+        cmake -H. "${C_CC}" "${C_LIB_TYPE}" "-Bbuild_${PLATFORM}"
+        cd "./build_${PLATFORM}" || exit
         make
         cp ./stesting ../
         cd ../
+    ;;
+    cc)
+        if [ ! -d "gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu" ]; then
+            wget https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+            tar -xvf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz -C ./
+            sync
+            rm -rf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+        fi
     ;;
     clean)
         rm -rf ./build*
@@ -31,10 +58,12 @@ case ${MODE} in
     *)  
         echo "${0} <MODE> <PLATFORM> <LIBTYPE>"
         echo "    MODE:"
-        echo "        build, release, clean"
+        echo "        build, clean, cc"
         echo "    PLATFORM:"
         echo "        host, arm(default)"
         echo "    LIBTYPE:"
         echo "        shared, static(default)"
     ;;
 esac
+
+reset_version_info

@@ -8,8 +8,8 @@
 #ifndef _COMMON_
 #define _COMMON_
 
-#define STESTING_VERSION "v0.0.3"
-#define STESTING_HASH "2286779319449f747d31e93b68d01c03ba9a80ab"
+#define STESTING_VERSION "BRANCH"
+#define STESTING_HASH "HASH"
 
 #define MAX_CMD 4096
 #define MAX_PATH 256

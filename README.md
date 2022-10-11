@@ -7,8 +7,6 @@
 
 ![workflow](https://github.com/aiotads/stesting-sc/actions/workflows/cmake.yml/badge.svg)
 
-# Table of contents
-- [Table of contents](#table-of-contents)
 - [Overview](#overview)
 - [Requirement](#requirement)
   - [HW requirement](#hw-requirement)
@@ -16,6 +14,8 @@
   - [SW requirement](#sw-requirement)
 - [Usage](#usage)
 - [How to install](#how-to-install)
+  - [Build from source code](#build-from-source-code)
+  - [Install by rpm](#install-by-rpm)
 - [How to run](#how-to-run)
 - [How to test](#how-to-test)
 - [Config file setting](#config-file-setting)
@@ -32,16 +32,16 @@
     - [MKEY](#mkey)
     - [AKEY](#akey)
     - [UART](#uart)
-- [FAQ](#faq)
-- [Contribution](#contribution)
-- [License](#license)
 
 # Overview
-Stesting provide the board io self testing.
+Stesting provide the board io self testing, some of the io test required jigs.
 
 # Requirement
 ## HW requirement
-EXMU-X261
+- EXMU-X261
+- Fixture for EXMU-X261
+- Jigs for EXMU-X261  
+  ![stesting_jig](doc/stesting_jig.png)
 ## FW requirement
 Must use `xmutil` of `xlnx-config.xmutil` to load the firmware of progarmmable logic before running `stesting`, because some of the IO (PCIE, GPIO, I2C, CAN) are pinout through PL. 
 ## SW requirement
@@ -73,47 +73,61 @@ available MODES
 ```
 
 # How to install
+## Build from source code
 Examples of supported combinations of compile are outlined below.
 The cross compiler could download from [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz).
-- Download and setup the cross compiler with cmd below  
+- Download and setup the cross compiler with cmd below.  
     `./installSC cc`
-- Compile binary file at host with static library  
+- Compile binary file at host with static library.  
     `./installSC build host static`
-- Compile binary file at host with shared library  
+- Compile binary file at host with shared library.  
     `./installSC build host shared`
-- Compile binary file by cross complier for arm with static library  
+- Compile binary file by cross complier for arm with static library.  
     `./installSC build arm static`
-- Compile binary file by cross complier for arm with shared library  
-    `./installSC build arm  shared`
+- Compile binary file by cross complier for arm with shared library.  
+    `./installSC build arm shared`
 
+Below shows the install success log of console.
+![stesting_install](doc/stesting_install.gif)
 
+## Install by rpm
+1. Copy the rpm file into the platfrom which is going to install stesting.
+2. Install the rpm file by rpm utility
+    ```
+    sudo rpm -ivh --replacefiles stesting-<type-you-need>.rpm
+    ```
+    ![stesting_rpm](doc/stesting_rpm.gif)
 # How to run
 Examples of supported combinations sorted by input are outlined below.
-- Production mode  
+- Production mode (Test all IO).  
     Only production mode will upload the log.json to server after testing.  
-    `./stesting`
-- Debug mode  
+    `sudo ./stesting`
+- Debug mode.  
     This mode can select specific IO to test from a simple UI.  
-    `./stesting -d`
-- Debug mode with pipline debug  
+    `sudo ./stesting -d`
+- Debug mode with pipline debug.  
     This mode can test multiple IO in one cmd, for example below cmd will test ethernet, usb, hdmi, uart.  
-    `./stesting -d1237`
-- Unit-test
-    This mode required the folder "unit-test" which contain the dummy data for it.  
-     `./stesting -u`
-- Select specific config file  
-     `./stesting -c /home/root/cfg.json`
-- Custiomize output log file  
-     `./stesting -l /home/root/custom_log.json`
+    `sudo ./stesting -d1237`
+- Select specific config file.  
+     `sudo ./stesting -c /home/root/cfg.json`
+- Custiomize output log file path.  
+     `sudo ./stesting -l /home/root/custom_log.json`  
+
+The test result will show in console as below, follow [this section](#show-result) to modify the cfg.json if result not showing.     
+    ![stesting_pass](doc/stesting_pass.png) | ![stesting_fail](doc/stesting_fail.png)
 
 # How to test
-Run the unit-test to test stesting.
+Run the unit-test to test stesting, for making sure this utility is correct.
 - Unit-test mode with dummy cfg.json  
-    `./stesting -u`
+    `sudo ./stesting -u`
 - Unit-test mode without dummy cfg.json  
-    `./stesting -g`
+    `sudo ./stesting -g`
+
+The test result of unit-test should show the pass result in console as below.  
+![stesting_pass](doc/stesting_ut.png)
 
 # Config file setting
+This section introduced how to customise the config file.
 ## Basic setting
 ### Board name
 Board name will be record into log.json.
@@ -165,7 +179,9 @@ ETH name and ip to ping. Default will ping board it self.
 }
 ```
 ### I2C
-I2C parameters and data to write.
+I2C parameters and data to write.  
+Below shows the I2C structure of EXMU-X261, user can change the ID to test any deivice on terminal block.  
+![stesting_i2c](doc/stesting_i2c.png)
 ```
 "I2C": {
     "ID": "0x74",
@@ -215,11 +231,3 @@ UART device port to test.
     "TX": "/dev/ttyPS0"
 }
 ```
-
-# FAQ
-
-# Contribution
-[Contributing](CONTRIBUTING.md)
-
-# License
-[MIT](LICENSE)

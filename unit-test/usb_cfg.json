@@ -1,0 +1,12 @@
+{
+    "USB": {
+        "DEVICEPATH": "unit-test/",
+        "FILENAME": "unit-test.dd",
+        "WRITEPATH": "unit-test/",
+        "DDBS": "10M",
+        "DDCOUNT": "10",
+        "WRITECAP2": "30",
+        "WRITECAP3": "30",
+        "DEVICECNT": "8"
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "HDMI": {
+        "KERNEL": "zynqmp-display"
+    }
+}

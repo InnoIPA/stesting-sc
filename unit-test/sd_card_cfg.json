@@ -1,0 +1,10 @@
+{
+    "SDCard": {
+        "DEVICEPATH": "unit-test/",
+        "FILENAME": "unit-test.dd",
+        "WRITEPATH": "unit-test/",
+        "DDBS": "10M",
+        "DDCOUNT": "10",
+        "WRITECAP": "30"
+    }
+}

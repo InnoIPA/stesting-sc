@@ -7,13 +7,13 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 PROJECT(stesting C)
 
 # options
-OPTION(CROSSCOMPILE "Use cross compiler to build aarch64" OFF)
+OPTION(CROSSCOMPILE "Use cross compiler to build aarch64" OFF) #off for x86
 OPTION(SHAREDLIB "Build bin with SHARED library" OFF) 
 
 # augments
 SET(MAINDOTC main.c)
 SET(INCULDES ${CMAKE_SOURCE_DIR}/inc)
-SET(TOOLPATH "/home/jhh/JunkYard/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu")
+SET(TOOLPATH "${CMAKE_CURRENT_SOURCE_DIR}/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu")
 
 # setup options
 IF (CROSSCOMPILE MATCHES "ON")
@@ -36,6 +36,7 @@ IF (CROSSCOMPILE MATCHES "ON")
     SET(CMAKE_SYSTEM_NAME Linux)
     SET(CMAKE_C_FLAGS "-std=c99")
     SET(CMAKE_C_FLAGS "-std=gnu99")
+
     SET(CMAKE_FIND_ROOT_PATH ${TOOLPATH})
 
     MESSAGE("CMAKE_FIND_ROOT_PATH :")
