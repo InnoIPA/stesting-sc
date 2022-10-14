@@ -39,8 +39,9 @@ Stesting provide the board io self testing, some of the io test required jigs.
 # Requirement
 ## HW requirement
 - EXMU-X261
-- Fixture for EXMU-X261
+- Debug board for EXMU-X261
 - Jigs for EXMU-X261  
+  There needs a 120 ohm resistor connect between CAN-L and CAN-H, user can turn on one of switch from `sw7` on EXMU-X261 or add resistor on the jig to make it work.
   ![stesting_jig](doc/stesting_jig.png)
 ## FW requirement
 Must use `xmutil` of `xlnx-config.xmutil` to load the firmware of progarmmable logic before running `stesting`, because some of the IO (PCIE, GPIO, I2C, CAN) are pinout through PL. 
