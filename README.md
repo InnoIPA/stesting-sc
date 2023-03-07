@@ -18,6 +18,7 @@
   - [Install by rpm](#install-by-rpm)
 - [How to run](#how-to-run)
 - [How to test](#how-to-test)
+- [API](#api)
 - [License](#license)
 
 # Overview
@@ -118,6 +119,10 @@ Run the unit-test to test stesting, for making sure this utility is correct.
 
 The test result of unit-test should show the pass result in console as below.  
 ![stesting_pass](doc/stesting_ut.png)
+
+# API
+[API](API.md)
+
 
 # License
 [MIT](LICENSE)
