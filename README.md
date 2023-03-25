@@ -66,18 +66,18 @@ available MODES
 Examples of supported combinations of compile are outlined below.
 The cross compiler could download from [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz).
 - Download and setup the cross compiler with cmd below.  
-    `./installSC cc`
-- Compile binary file at host with static library.  
-    `./installSC build host static`
-- Compile binary file at host with shared library.  
-    `./installSC build host shared`
-- Compile binary file by cross complier for arm with static library.  
-    `./installSC build arm static`
-- Compile binary file by cross complier for arm with shared library.  
-    `./installSC build arm shared`
+    `./build.sh downloadcc`
+- Compile binary file by using host compiler with static library.  
+    `./build.sh bin host static`
+- Compile binary file by using host compiler with shared library.  
+    `./build.sh bin host shared`
+- Compile binary file by using cross compiler on x86 for arm with static library.  
+    `./build.sh bin cc static`
+- Compile binary file by using cross compiler on x86 for arm with shared library.  
+    `./build.sh bin cc shared`
 - Build rpm package for installing.  
-    `./installSC build <host/arm> <static/shared>`  
-    `./installSC rpm <host/arm> <static/shared>`
+    `./build.sh build <host/cc> <static/shared>`  
+    `./build.sh rpm <host/cc> <static/shared>`
 
 Below shows the install success log of console.
 ![stesting_install](doc/stesting_install.gif)
@@ -103,11 +103,12 @@ Default log file path :  `/opt/innodisk/stesting/log.json`
     This mode can test multiple IO in one cmd, for example below cmd will test ethernet, usb, hdmi, uart.  
     `sudo ./stesting -d1237`
 - Select specific config file.  
-     `sudo ./stesting -c /home/root/cfg.json`
+    `sudo ./stesting -c /home/root/cfg.json`
 - Custiomize output log file path.  
-     `sudo ./stesting -l /home/root/custom_log.json`  
+    `sudo ./stesting -l /home/root/custom_log.json`  
 
-The test result will show in console as below, follow [this page](CONFIG.md) to modify the cfg.json if result not showing.     
+The test result will show in console as below, follow [this page](CONFIG.md) to modify the cfg.json if result not showing.  
+Follow [this page](ERRORCODE.md) for the error code of each test.   
     ![stesting_pass](doc/stesting_pass.png) | ![stesting_fail](doc/stesting_fail.png)
 
 # How to test
