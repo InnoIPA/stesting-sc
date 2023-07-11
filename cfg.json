@@ -1,7 +1,7 @@
 {
     "BOARDNAME": "EXMU-X261",
-    "SHOWRESULT": "false",
-    "PRETTYLOG": "false",
+    "SHOWRESULT": "true",
+    "PRETTYLOG": "true",
     "SDCard": {
         "DEVICEPATH": "/dev/mmcblk1p2",
         "FILENAME": "/SDCard.dd",
@@ -48,7 +48,7 @@
     },
     "AKEY": {
         "PCIE_Slot": "0000:01:00.0",
-        "USB2_TEXT": "Bus 001 Device 004"
+        "USB2_TEXT": "/sys/bus/usb/devices/1-1.2.2"
     },
     "UART": {
         "TX": "/dev/ttyPS0"
