@@ -144,7 +144,7 @@ void debug_ui(char* cfgfile)
 bool debug_ll(char *cfgfile, char *debug_ll_modes)
 {
 	LIST *dblist = create_ll();
-	TESTCASES db0, db1, db2, db3, db4, db5, db6, db7, db8, db9, dbA;
+	TESTCASES db0, db1, db2, db3, db4, db5, db6, db7, db8, dbA;
 	char dmodes[MAX_PATH] = {0};
 	int dbresult = 0;
 
@@ -201,7 +201,6 @@ int main(int argc, char *argv[])
 	// initial 
 	int mode = 0;
 	char argument = 0;
-	char msg[MAX_CMD] = {0};
 	char modelist[MAX_PATH] = {0};
 	char debug_ll_modes[MAX_PATH] = {0};
 	char cfgfile[MAX_PATH] = {0};
@@ -214,9 +213,9 @@ int main(int argc, char *argv[])
 	if (argv[1] != NULL)
 	{
 		sprintf(modelist, "%c%c%c%c%c::%c:%c:", AUG_VERSION, AUG_HELP, AUG_UNITTEST, AUG_GITHUBCI, AUG_DEBUGMODE, AUG_SETCONFIG, AUG_SETLOGFIG);
-		while (argument = getopt(argc, argv, modelist))
+		while ((argument = getopt(argc, argv, modelist)) != -1)
 		{
-			if (argument == -1 || argument == 255)
+			if (argument == 255)
 				break;
 			else
 			{
@@ -284,10 +283,10 @@ int main(int argc, char *argv[])
 		debug_ll(cfgfile, debug_ll_modes);
 		break;
 	case UNITTEST:
-		UNITTEST_run(false);
+		return UNITTEST_run(false);
 		break;
 	case UNITTESTCI:
-		UNITTEST_run(true);
+		return UNITTEST_run(true);
 		break;
 	}
 

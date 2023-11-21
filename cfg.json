@@ -16,7 +16,12 @@
         "DDCOUNT": "10",
         "WRITECAP2": "5",
         "WRITECAP3": "5",
-        "DEVICECNT": "8"
+        "DEVICES": {
+            "USB0" : "/devices/platform/axi/ff9d0000.usb0/fe200000.usb/xhci-hcd.1.auto/usb2/2-1/2-1.2/2-1.2:1.0/host0",
+            "USB1" : "/devices/platform/axi/ff9d0000.usb0/fe200000.usb/xhci-hcd.1.auto/usb2/2-1/2-1.1/2-1.1:1.0/host0",
+            "USB2" : "/devices/platform/axi/ff9d0000.usb0/fe200000.usb/xhci-hcd.1.auto/usb2/2-1/2-1.4/2-1.4:1.0/host0",
+            "USB3" : "/devices/platform/axi/ff9d0000.usb0/fe200000.usb/xhci-hcd.1.auto/usb2/2-1/2-1.3/2-1.3:1.0/host0"
+        }
     },
     "ETH": {
         "IP": "",

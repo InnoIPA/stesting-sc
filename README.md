@@ -4,8 +4,11 @@
  This software is released under the MIT License.
  https://opensource.org/licenses/MIT
 -->
+[![workflow](https://github.com/InnoIPA/stesting-sc/actions/workflows/cmake.yml/badge.svg)](https://github.com/InnoIPA/stesting-sc/actions)
+[![workflow](https://github.com/aiotads/stesting__confidential/actions/workflows/meson.yml/badge.svg)](https://github.com/aiotads/stesting__confidential/actions)
 
-![workflow](https://github.com/aiotads/stesting-sc/actions/workflows/cmake.yml/badge.svg)
+![Release Version](https://img.shields.io/github/v/release/InnoIPA/stesting-sc)
+![Repo Size](https://img.shields.io/github/repo-size/InnoIPA/stesting-sc)
 
 - [Overview](#overview)
 - [Requirement](#requirement)
@@ -64,7 +67,8 @@ available MODES
 # How to install
 ## Build from source code
 Examples of supported combinations of compile are outlined below.
-The cross compiler could download from [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz).
+The cross compiler could download from [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz).  
+Default build script `build.sh` is using `cmake`, user can also use the `meson` & `ninja` by reference `meson_example.sh`.
 - Download and setup the cross compiler with cmd below.  
     `./build.sh downloadcc`
 - Compile binary file by using host compiler with static library.  

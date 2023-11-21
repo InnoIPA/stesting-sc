@@ -5,8 +5,17 @@
         "WRITEPATH": "unit-test/",
         "DDBS": "10M",
         "DDCOUNT": "10",
-        "WRITECAP2": "30",
+        "WRITECAP2": "20",
         "WRITECAP3": "30",
-        "DEVICECNT": "8"
+        "DEVICES": {
+            "USB0" : "PATH0",
+            "USB1" : "PATH1",
+            "USB2" : "PATH2",
+            "USB3" : "PATH3",
+            "USB4" : "PATH4",
+            "USB5" : "PATH5",
+            "USB6" : "PATH6",
+            "USB7" : "PATH7"
+        }
     }
 }
