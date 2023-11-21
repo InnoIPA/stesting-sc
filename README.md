@@ -4,8 +4,8 @@
  This software is released under the MIT License.
  https://opensource.org/licenses/MIT
 -->
-[![workflow](https://github.com/InnoIPA/stesting-sc/actions/workflows/cmake.yml/badge.svg)](https://github.com/InnoIPA/stesting-sc/actions)
-[![workflow](https://github.com/aiotads/stesting__confidential/actions/workflows/meson.yml/badge.svg)](https://github.com/aiotads/stesting__confidential/actions)
+[![](https://github.com/InnoIPA/stesting-sc/actions/workflows/cmake.yml/badge.svg)](https://github.com/InnoIPA/stesting-sc/actions)
+[![](https://github.com/aiotads/stesting__confidential/actions/workflows/meson.yml/badge.svg)](https://github.com/aiotads/stesting__confidential/actions)
 
 ![Release Version](https://img.shields.io/github/v/release/InnoIPA/stesting-sc)
 ![Repo Size](https://img.shields.io/github/repo-size/InnoIPA/stesting-sc)
