@@ -22,6 +22,7 @@
 - [How to run](#how-to-run)
 - [How to test](#how-to-test)
 - [API](#api)
+- [Todo](#todo)
 - [License](#license)
 
 # Overview
@@ -111,8 +112,8 @@ Default log file path :  `/opt/innodisk/stesting/log.json`
 - Custiomize output log file path.  
     `sudo ./stesting -l /home/root/custom_log.json`  
 
-The test result will show in console as below, follow [this page](CONFIG.md) to modify the cfg.json if result not showing.  
-Follow [this page](ERRORCODE.md) for the error code of each test.   
+The test result will show in console as below, follow [this page](doc/CONFIG.md) to modify the cfg.json if result not showing.  
+Follow [this page](doc/ERRORCODE.md) for the error code of each test.   
     ![stesting_pass](doc/stesting_pass.png) | ![stesting_fail](doc/stesting_fail.png)
 
 # How to test
@@ -126,8 +127,13 @@ The test result of unit-test should show the pass result in console as below.
 ![stesting_pass](doc/stesting_ut.png)
 
 # API
-[API](API.md)
+[API](doc/API.md)
 
+# Todo
+- [ ] multiple ethernet port testing
+- [ ] multiple display port testing
+- [ ] multiple i2c bus testing
+- [ ] multiple uart port testing
 
 # License
 [MIT](LICENSE)

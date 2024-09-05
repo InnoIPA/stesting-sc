@@ -46,6 +46,7 @@ enum MODES
 	DEBUGMODELINKLIST,
 	UNITTEST,
 	UNITTESTCI,
+	AUTOMODE,
 };
 
 /****************************************

@@ -22,8 +22,8 @@ typedef struct _USB_IN
 	char WriteCap2[MAX_PATH]; // MB
 	char WriteCap3[MAX_PATH]; // MB
 	int DeviceCnt;
-	char DevicesName[8][MAX_PATH];
-	char DevicesPath[8][MAX_PATH];
+	char DevicesName[16][MAX_PATH];
+	char DevicesPath[16][MAX_PATH];
 } USB_IN;
 
 typedef struct _USB_OUT

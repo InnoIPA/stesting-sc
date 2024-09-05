@@ -31,6 +31,7 @@
 
 #define AUG_HELP		'h' // help
 #define AUG_DEBUGMODE	'd' // debug mode
+#define AUG_AUTOMODE	'a' // auto mode
 #define AUG_UNITTEST	'u' // unit-test
 #define AUG_GITHUBCI	'g' // for github action runner, because its not allow fopen(), popen(), system()
 #define AUG_SETCONFIG	'c' // select specific config file
@@ -39,7 +40,7 @@
 
 void help()
 {
-	LOG("stesting [-v] [-h] [-u] [-d MODES] [-c CONFIG] [-l LOG]");
+	LOG("stesting [-v] [-h] [-u] [-a] [-d MODES] [-c CONFIG] [-l LOG]");
 	LOG("");
 	LOG("optional arguments:");
 	LOG("  -h, show this help message and exit");
@@ -49,12 +50,80 @@ void help()
 	LOG("  -c, config file path, default is /opt/innodisk/stesting/cfg.json");
 	LOG("  -l, log file path, default is /opt/innodisk/stesting/log.json");
 	LOG("  -d, debug mode, add MODES for pipline test if in need ");
+	LOG("  -a, auto mode, run all sections from config file");
 	LOG("available debug MODES");
 	LOG("  [0] GPIO      [1] ETH     [2] USB     [3] HDMI");
 	LOG("  [4] SD_Card   [5] I2C     [6] CAN     [7] UART");
 	LOG("  [8] MKEY      [A] AKEY    [q] Quit");
 	LOG("");
 	LOG("");
+}
+
+
+bool automode(char *cfgfile){
+	//parse test case from config file
+    JSON_Value *Jcfg = json_parse_file(cfgfile);
+    if (Jcfg == NULL)
+    {
+        json_value_free(Jcfg);
+        return false;
+    }
+    JSON_Object *Jrobj = json_value_get_object(Jcfg);
+    if (Jrobj == NULL)
+    {
+        json_value_free(Jcfg);
+        return false;
+    }
+
+    int sections = json_object_get_count(Jrobj); 
+	LIST *dblist = create_ll();
+	TESTCASES db0, db1, db2, db3, db4, db5, db6, db7, db8, dbA;
+	int dbresult = 0;
+
+    log_add("TESTMODE", "auto");
+	DNA_run();
+
+	//creating ll
+    for(int i=0; i<sections; i++)
+    {
+        char case_name[MAX_PATH] = {0};;
+        strcpy(case_name, json_object_get_name(Jrobj, i));
+
+        if(strcmp(case_name, "GPIO") == 0)
+            add_ll(dblist, create_node(&db0, GPIO_run));
+        else if(strcmp(case_name, "ETH") == 0)
+            add_ll(dblist, create_node(&db1, ETH_run));
+        else if(strcmp(case_name, "USB") == 0)
+			add_ll(dblist, create_node(&db2, USB_run));
+        else if(strcmp(case_name, "HDMI") == 0)
+			add_ll(dblist, create_node(&db3, HDMI_run));
+        else if(strcmp(case_name, "SDCard") == 0)
+			add_ll(dblist, create_node(&db4, SD_Card_run));
+        else if(strcmp(case_name, "I2C") == 0)
+			add_ll(dblist, create_node(&db5, I2C_run));
+        else if(strcmp(case_name, "CAN") == 0)
+			add_ll(dblist, create_node(&db6, CAN_run));
+        else if(strcmp(case_name, "UART") == 0)
+			add_ll(dblist, create_node(&db7, UART_run));
+        else if(strcmp(case_name, "MKEY") == 0)
+			add_ll(dblist, create_node(&db8, MKEY_run));
+        else if(strcmp(case_name, "AKEY") == 0)
+			add_ll(dblist, create_node(&dbA, AKEY_run));
+    }
+
+	while (1) // run dblist
+	{
+		dbresult += dblist->head->test->run(cfgfile);
+		if (dblist->head->next == NULL)
+			break;
+		dblist->head = dblist->head->next;
+	}
+
+	free_ll(dblist);
+
+	if (dbresult != 0)
+		return false;
+	return true;
 }
 
 bool production(char *cfgfile)
@@ -212,7 +281,7 @@ int main(int argc, char *argv[])
 	// parsing augments
 	if (argv[1] != NULL)
 	{
-		sprintf(modelist, "%c%c%c%c%c::%c:%c:", AUG_VERSION, AUG_HELP, AUG_UNITTEST, AUG_GITHUBCI, AUG_DEBUGMODE, AUG_SETCONFIG, AUG_SETLOGFIG);
+		sprintf(modelist, "%c%c%c%c%c%c::%c:%c:", AUG_VERSION, AUG_HELP, AUG_UNITTEST, AUG_GITHUBCI, AUG_AUTOMODE, AUG_DEBUGMODE, AUG_SETCONFIG, AUG_SETLOGFIG);
 		while ((argument = getopt(argc, argv, modelist)) != -1)
 		{
 			if (argument == 255)
@@ -226,6 +295,9 @@ int main(int argc, char *argv[])
 					break;
 				case AUG_GITHUBCI: 						// github ci unit-test
 					mode = UNITTESTCI;
+					break;
+				case AUG_AUTOMODE: 						// automode
+					mode = AUTOMODE;
 					break;
 				case AUG_DEBUGMODE:						// debugmode
 					if (optarg != NULL) 			
@@ -288,10 +360,13 @@ int main(int argc, char *argv[])
 	case UNITTESTCI:
 		return UNITTEST_run(true);
 		break;
+	case AUTOMODE:
+		automode(cfgfile);
+		break;
 	}
 
 	// save the log file
-	if(mode == PRODUCTION || mode == DEBUGMODE || mode == DEBUGMODELINKLIST)
+	if(mode == PRODUCTION || mode == DEBUGMODE || mode == DEBUGMODELINKLIST || mode == AUTOMODE)
 	{
 		stesting_finish(logfile);
 	}
